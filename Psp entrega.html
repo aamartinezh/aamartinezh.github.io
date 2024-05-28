@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=4.0">
+    <title>Portal-Sistema Web</title>
+    <style>
+        /* Estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        section {
+            padding: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #333333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .chart-container {
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Portal-Sistema Web</h1>
+    </header>
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Tareas</a>
+        <a href="#">Estadísticas</a>
+        <a href="#">Acerca de</a>
+    </nav>
+    <section>
+        <h2>Crear Nueva Tarea</h2>
+        <form id="taskForm">
+            <input type="text" id="taskName" placeholder="Nombre de la tarea" required>
+            <input type="date" id="dueDate" required>
+            <button type="submit">Agregar Tarea</button>
+        </form>
+        <h2>Listado de Tareas</h2>
+        <ul id="taskList">
+            <!-- Aquí se insertarán las tareas -->
+        </ul>
+    </section>
+    <section>
+        <h2>Estadísticas de Tareas</h2>
+        <div class="chart-container">
+            <canvas id="taskChart"></canvas>
+        </div>
+    </section>
+    <footer>
+        <p>Derechos de autor &copy; 2024 Portal-Sistema Web</p>
+    </footer>
+
+    <script>
+        // JavaScript para validación de formulario y operaciones
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que se envíe el formulario
+
+            // Obtener valores del formulario
+            var taskName = document.getElementById('taskName').value;
+            var dueDate = document.getElementById('dueDate').value;
+
+            // Validar que se hayan ingresado datos
+            if (taskName.trim() === '' || dueDate.trim() === '') {
+                alert('Por favor, complete todos los campos.');
+                return;
+            }
+
+            // Crear elemento de lista para la nueva tarea
+            var li = document.createElement('li');
+            li.textContent = taskName + ' - ' + dueDate;
+
+            // Agregar la nueva tarea a la lista
+            document.getElementById('taskList').appendChild(li);
+
+            // Limpiar el formulario después de agregar la tarea
+            document.getElementById('taskForm').reset();
+        });
+
+        // Simulación de datos para el gráfico
+        var tasks = ['Tarea 1', 'Tarea 2', 'Tarea 3'];
+        var taskCounts = [5, 3, 7];
+
+        // Dibujar gráfico de barras
+        var ctxBar = document.getElementById('taskChart').getContext('2d');
+        var barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: tasks,
+                datasets: [{
+                    label: 'Número de Tareas',
+                    data: taskCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Dibujar gráfico de torta
+        var ctxPie = document.getElementById('taskChart').getContext('2d');
+        var pieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: tasks,
+                datasets: [{
+                    label: 'Número de Tareas',
+                    data: taskCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
